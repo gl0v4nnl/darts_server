@@ -1,0 +1,54 @@
+{
+    "players" : [
+        {
+            "id" : "p0",
+            "name" : "Player 0",
+            "picture" : "player_0.png",
+            "played" : 0,
+            "percent" : 0.0,
+            "wins" : 0
+        },
+        {
+            "id" : "p1",
+            "name" : "Player 1",
+            "picture" : "player_1.png",
+            "played" : 0,
+            "percent" : 0.0,
+            "wins" : 0
+        }
+    ],
+    "games" : [
+        {
+            "id" : "m0",
+            "date" : "2019-01-01",
+            "time" : "12:00:00",
+            "target" : 301,
+            "players_id" : [
+                {
+                    "p0_id" : "p0",
+                    "p1_id" : "p1"
+                }
+            ],
+            "rounds" : [
+                {
+                    "id" : "r0",
+                    "scores" : [
+                        {
+                            "p0_score" : 0,
+                            "p1_score" : 0
+                        }
+                    ]
+                },
+                {
+                    "id" : "r1",
+                    "scores" : [
+                        {
+                            "p0_score" : 1,
+                            "p1_score" : 1
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
