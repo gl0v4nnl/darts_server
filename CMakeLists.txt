@@ -14,5 +14,12 @@ endif()
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-add_executable(hello_async src/main.cpp src/http_server.cpp src/http_server.h src/sdk.h)
+add_executable(hello_async src/main.cpp 
+                           src/http_server.cpp 
+                           src/http_server.h 
+                           src/sdk.h
+                           src/engine/game.cpp
+                           src/engine/game.h
+                           src/engine/player.h
+                           src/engine/round.h)
 target_link_libraries(hello_async PRIVATE Threads::Threads)

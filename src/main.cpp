@@ -7,6 +7,9 @@
 #include <vector>
 
 #include "http_server.h"
+#include "engine/player.h"
+#include "engine/round.h"
+#include "engine/game.h"
 
 namespace {
 namespace net = boost::asio;
