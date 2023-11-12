@@ -1,6 +1,7 @@
 #include "sdk.h"
 //
 #include <boost/asio/signal_set.hpp>
+#include <fstream>
 #include <iostream>
 #include <mutex>
 #include <thread>
@@ -38,6 +39,50 @@ StringResponse MakeStringResponse(http::status status, std::string_view body, un
     return response;
 }
 
+#include <fstream>
+#include <sstream>
+
+StringResponse HandleRequest(StringRequest&& req) {
+    // Подставьте сюда код из синхронной версии HTTP-сервера
+    const auto text_response = [&req](http::status status, std::string_view text) {
+        return MakeStringResponse(status, text, req.version(), req.keep_alive());
+    };
+
+    std::string ret(req.target().begin() + 1, req.target().length() - 1);
+    std::string resp;
+
+    if (ret.length() == 0) {
+        resp = "Hello"sv;
+    } else {
+        resp = "Hello, "sv;
+        resp.insert(resp.length(), ret.c_str());
+    }
+
+    // Read the HTML file
+    std::ifstream file("../data/main_page.html");
+    if (!file.is_open()) {
+        // Handle the error if the file cannot be opened
+        // return an appropriate response
+    }
+
+    // Read the contents of the file into a string
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string htmlContent = buffer.str();
+
+    // Replace the content of the Name field
+    std::string name = resp; // Replace with the desired name
+    size_t namePos = htmlContent.find("{{Name}}");
+    if (namePos != std::string::npos) {
+        htmlContent.replace(namePos, std::string("{{Name}}").length(), name);
+    }
+
+    // Create the response with the modified HTML content
+    StringResponse response = MakeStringResponse(http::status::ok, htmlContent, req.version(), req.keep_alive());
+
+    return response;
+}
+/*
 StringResponse HandleRequest(StringRequest&& req) {
     // Подставьте сюда код из синхронной версии HTTP-сервера
     const auto text_response = [&req](http::status status, std::string_view text) {
@@ -59,7 +104,7 @@ StringResponse HandleRequest(StringRequest&& req) {
 
     return text_response(http::status::ok, response.data());
 }
-
+*/
 // Запускает функцию fn на n потоках, включая текущий
 template <typename Fn>
 void RunWorkers(unsigned n, const Fn& fn) {
